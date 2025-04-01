@@ -1,22 +1,17 @@
 import functions_framework
-import logging
 from flask import jsonify
-
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 
 @functions_framework.http
-def callback(request):
+def handle_http_request(request):
     # get request body as text
     body = request.get_data(as_text=True)
-    logger.info("Request body: " + body)
-
+    print("Request body: " + body)
 
     # Try to parse the body as JSON
     request_json = request.get_json(silent=True)
-    logger.info("Request: " + str(request_json))
+    print("Request: " + str(request_json))
+    
     # Extract data from JSON body
     monthly_income = int(request_json.get("monthly_income", 0))
     use_personal_allowance = request_json.get("use_personal_allowance", False)
@@ -34,7 +29,7 @@ def callback(request):
         insurance_premium,
         social_security,
     )
-    logger.info(f"ภาษีที่ต้องชำระ: {tax:.2f} บาท")
+    print(f"ภาษีที่ต้องชำระ: {tax:.2f} บาท")
     return jsonify(
         {
             "total_deductions": f"{total_deductions:.2f}",
@@ -112,5 +107,6 @@ if __name__ == "__main__":
         insurance_premium,
         social_security,
     )
-
+    print(f'รายได้รวมต่อปี: {gross_income:.2f} บาท')
+    print(f'ค่าลดหย่อนทั้งหมด: {total_deductions:.2f} บาท')
     print(f'ภาษีที่ต้องชำระ: {tax:.2f} บาท')

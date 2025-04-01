@@ -13,3 +13,5 @@ venv/
 *.log
 
 sa.json
+init.sh
+

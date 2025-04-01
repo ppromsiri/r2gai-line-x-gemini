@@ -1,0 +1,5 @@
+export GCP_ACCOUNT=you-email@gmail.com
+export PROJECT_ID=your-gcp-project-id
+export REGION=asia-southeast1
+export FUNCTION_NAME=gcf-simple-tax-calculator
+export ENTRY_POINT=handle_http_request

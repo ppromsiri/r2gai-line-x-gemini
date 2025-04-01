@@ -1,0 +1,66 @@
+openapi: 3.0.0
+info:
+  title: Personal Income Tax Calculator API
+  description: API for calculating personal income tax based on income, allowances, and deductions.
+  version: 1.0.0
+servers:
+  - url: https://your-cloud-function-url
+    description: Cloud Function URL
+paths:
+  /:
+    post:
+      summary: Calculate Personal Income Tax
+      description: Calculates the personal income tax based on the user's financial details and deductions.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                monthly_income:
+                  type: integer
+                  description: Monthly income of the user.
+                  example: 50000
+                use_personal_allowance:
+                  type: boolean
+                  description: Whether to use the personal allowance deduction.
+                  example: true
+                use_spouse_allowance:
+                  type: boolean
+                  description: Whether to use the spouse allowance deduction.
+                  example: false
+                num_children:
+                  type: integer
+                  description: Number of children eligible for deductions.
+                  example: 2
+                insurance_premium:
+                  type: integer
+                  description: Amount of life insurance premium paid.
+                  example: 20000
+                social_security:
+                  type: integer
+                  description: Amount of social security contributions.
+                  example: 9000
+      responses:
+        '200':
+          description: Successful tax calculation.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total_deductions:
+                    type: string
+                    description: Total deductions applied.
+                    example: "150000.00"
+                  gross_income:
+                    type: string
+                    description: Gross annual income.
+                    example: "600000.00"
+                  tax_to_pay:
+                    type: string
+                    description: Total tax to be paid.
+                    example: "20000.00"
+        '400':
+          description: Bad request. Invalid input data.

@@ -1,0 +1,54 @@
+openapi: 3.0.0
+info:
+  title: Loan Calculator API
+  description: API for calculating the maximum loan amount based on monthly income, existing debt, and loan term.
+  version: 1.0.0
+servers:
+  - url: https://your-cloud-function-url
+    description: Cloud Function URL
+paths:
+  /:
+    post:
+      summary: Calculate Maximum Loan
+      description: Calculates the maximum loan amount a user can afford based on their financial details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                monthly_income:
+                  type: integer
+                  description: Monthly income of the user.
+                  example: 100000
+                existing_debt:
+                  type: integer
+                  description: Existing monthly debt of the user.
+                  example: 6000
+                loan_term_years:
+                  type: integer
+                  description: Loan term in years.
+                  example: 30
+      responses:
+        '200':
+          description: Successful loan calculation.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  max_loan:
+                    type: string
+                    description: Maximum loan amount the user can afford.
+                    example: "5000000.00"
+                  monthly_payment:
+                    type: string
+                    description: Monthly payment the user can afford.
+                    example: "65000.00"
+                  message:
+                    type: string
+                    description: Status message of the calculation.
+                    example: "Loan amount calculated successfully"
+        '400':
+          description: Bad request. Invalid input data.

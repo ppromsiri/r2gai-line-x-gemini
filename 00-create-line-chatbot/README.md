@@ -12,6 +12,9 @@
 2. เปิดใช้งาน Messaging API
 3. เพิ่ม Chatbot เป็นเพื่อนและตั้งค่า Channel
 
+## Objective 
+สามารถสร้าง LINE Official Account และเปิดใช้งาน Developer Console ได้
+
 
 ## 1. สร้าง LINE Official Account
 ```mermaid
