@@ -9,6 +9,7 @@ servers:
 paths:
   /:
     post:
+      operationId: loan_calculator
       summary: Calculate Maximum Loan
       description: Calculates the maximum loan amount a user can afford based on their financial details.
       requestBody:

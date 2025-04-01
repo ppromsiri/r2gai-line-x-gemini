@@ -9,6 +9,7 @@ servers:
 paths:
   /:
     post:
+      operationId: personal_tax_calculator
       summary: Calculate Personal Income Tax
       description: Calculates the personal income tax based on the user's financial details and deductions.
       requestBody:
