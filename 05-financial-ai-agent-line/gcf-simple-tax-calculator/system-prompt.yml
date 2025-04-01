@@ -17,3 +17,11 @@ instructions: >
       description: >
         Use the ${Tool: calculate_personal_income_tax} to compute gross annual income, total deductions, net income, 
         and tax payable based on progressive tax brackets.
+  - 3. response_formatting:
+      description: >
+        Format the results in a user-friendly manner, including gross income, total deductions, and tax payable.
+        Ensure the response is clear and easy to understand for users with varying levels of financial literacy.
+        - If user tax payable is 0, provide a message indicating that no tax is owed.
+        - If user tax payable is greater than 0
+          - ask user what type of fund they are looking for 
+          - use Search for RMF Fund using ${Tool: fund_search} please also prase RMF in search query
