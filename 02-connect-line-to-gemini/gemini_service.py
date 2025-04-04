@@ -21,22 +21,24 @@ def generate_text(text):
     print(f"Gemini response: {response.text}")
     return response.text
 
+
 def image_description(image_content):
     pil_image = PILImage.open(io.BytesIO(image_content))
-   
+
     prompt = "What is shown in this image in Thai?"
     response = client.models.generate_content(
-            model="gemini-2.0-flash-001",
-            contents=[
-                prompt,
-                pil_image,
-            ],
-            config=types.GenerateContentConfig(
-                max_output_tokens=200,
-            ),
-        )
+        model="gemini-2.0-flash-001",
+        contents=[
+            prompt,
+            pil_image,
+        ],
+        config=types.GenerateContentConfig(
+            max_output_tokens=200,
+        ),
+    )
     print(f"Gemini response: {response.text}")
     return response.text
+
 
 def document_description(file_content):
     prompt = "Summarize this document in Thai"
@@ -45,9 +47,9 @@ def document_description(file_content):
         contents=[
             types.Part.from_bytes(
                 data=file_content,
-                mime_type='application/pdf',
+                mime_type="application/pdf",
             ),
-            prompt
+            prompt,
         ],
         config=types.GenerateContentConfig(
             max_output_tokens=200,

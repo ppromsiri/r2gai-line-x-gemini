@@ -26,7 +26,7 @@ from linebot.v3.messaging import (
     ShowLoadingAnimationRequest,
     FlexContainer,
     FlexMessage,
-    FlexCarousel
+    FlexCarousel,
 )
 
 load_dotenv()
@@ -71,16 +71,14 @@ def handle_text_message(event):
     )
     gemini_summary_text, search_results = search_ai(event.message.text)
     funds_flex_message = make_flex_message(search_results)
-    
+
     line_bot_api.reply_message(
         ReplyMessageRequest(
             reply_token=event.reply_token,
-            messages=[
-                TextMessage(text=gemini_summary_text),
-                funds_flex_message
-            ],
+            messages=[TextMessage(text=gemini_summary_text), funds_flex_message],
         )
     )
+
 
 def make_flex_message(search_results):
     result_products_list = []
@@ -100,19 +98,16 @@ def make_flex_message(search_results):
                         "text": fund_data["fundCode"],
                         "weight": "bold",
                         "size": "lg",
-                        "wrap": True
+                        "wrap": True,
                     },
                     {
                         "type": "text",
                         "text": fund_data["fundNameThai"],
                         "size": "sm",
                         "color": "#666666",
-                        "wrap": True
+                        "wrap": True,
                     },
-                    {
-                        "type": "separator",
-                        "margin": "md"
-                    },
+                    {"type": "separator", "margin": "md"},
                     {
                         "type": "box",
                         "layout": "vertical",
@@ -128,7 +123,7 @@ def make_flex_message(search_results):
                                         "text": "NAV",
                                         "size": "sm",
                                         "color": "#555555",
-                                        "flex": 2
+                                        "flex": 2,
                                     },
                                     {
                                         "type": "text",
@@ -136,9 +131,9 @@ def make_flex_message(search_results):
                                         "size": "sm",
                                         "color": "#111111",
                                         "align": "end",
-                                        "flex": 3
-                                    }
-                                ]
+                                        "flex": 3,
+                                    },
+                                ],
                             },
                             {
                                 "type": "box",
@@ -149,7 +144,7 @@ def make_flex_message(search_results):
                                         "text": "เปลี่ยนแปลง (1D)",
                                         "size": "sm",
                                         "color": "#555555",
-                                        "flex": 2
+                                        "flex": 2,
                                     },
                                     {
                                         "type": "text",
@@ -157,9 +152,9 @@ def make_flex_message(search_results):
                                         "size": "sm",
                                         "color": return1D_color,
                                         "align": "end",
-                                        "flex": 3
-                                    }
-                                ]
+                                        "flex": 3,
+                                    },
+                                ],
                             },
                             {
                                 "type": "box",
@@ -170,7 +165,7 @@ def make_flex_message(search_results):
                                         "text": "ผลตอบแทน YTD",
                                         "size": "sm",
                                         "color": "#555555",
-                                        "flex": 2
+                                        "flex": 2,
                                     },
                                     {
                                         "type": "text",
@@ -178,9 +173,9 @@ def make_flex_message(search_results):
                                         "size": "sm",
                                         "color": returnYTD_color,
                                         "align": "end",
-                                        "flex": 3
-                                    }
-                                ]
+                                        "flex": 3,
+                                    },
+                                ],
                             },
                             {
                                 "type": "box",
@@ -191,7 +186,7 @@ def make_flex_message(search_results):
                                         "text": "Risk Level",
                                         "size": "sm",
                                         "color": "#555555",
-                                        "flex": 2
+                                        "flex": 2,
                                     },
                                     {
                                         "type": "text",
@@ -199,16 +194,13 @@ def make_flex_message(search_results):
                                         "size": "sm",
                                         "color": "#111111",
                                         "align": "end",
-                                        "flex": 3
-                                    }
-                                ]
-                            }
-                        ]
+                                        "flex": 3,
+                                    },
+                                ],
+                            },
+                        ],
                     },
-                    {
-                        "type": "separator",
-                        "margin": "md"
-                    },
+                    {"type": "separator", "margin": "md"},
                     {
                         "type": "box",
                         "layout": "horizontal",
@@ -220,12 +212,12 @@ def make_flex_message(search_results):
                                 "size": "xs",
                                 "color": "#999999",
                                 "flex": 1,
-                                "align": "start"
+                                "align": "start",
                             }
-                        ]
-                    }
-                ]
-            }
+                        ],
+                    },
+                ],
+            },
         }
 
         result_products_list.append(FlexContainer.from_dict(flex_bubble))

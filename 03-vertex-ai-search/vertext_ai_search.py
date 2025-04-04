@@ -12,6 +12,7 @@ APP_LOCATION = os.environ["APP_LOCATION"]
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "sa.json"
 
+
 def get_vertex_ai_search_config():
     client_options = (
         ClientOptions(api_endpoint=f"{APP_LOCATION}-discoveryengine.googleapis.com")
@@ -42,10 +43,11 @@ def get_vertex_ai_search_config():
     )
     return client, serving_config, content_search_spec
 
+
 def search_ai(query):
-    # Search Configuration 
+    # Search Configuration
     client, serving_config, content_search_spec = get_vertex_ai_search_config()
-    
+
     search_query = query
     request = discoveryengine.SearchRequest(
         serving_config=serving_config,
@@ -62,8 +64,7 @@ def search_ai(query):
 
     response = client.search(request)
     response_dict = MessageToDict(response._pb)
-    
+
     gemini_summary_text = response_dict["summary"]["summaryText"]
     search_results = response_dict["results"]
     return gemini_summary_text, search_results
-    

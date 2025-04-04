@@ -24,7 +24,7 @@ from linebot.v3.messaging import (
     ReplyMessageRequest,
     TextMessage,
     ShowLoadingAnimationRequest,
-    LocationMessage
+    LocationMessage,
 )
 
 load_dotenv()
@@ -39,11 +39,7 @@ api_client = ApiClient(configuration)
 line_bot_api = MessagingApi(api_client)
 line_bot_blob_api = MessagingApiBlob(api_client)
 
-from gemini_service import (
-    generate_text,
-    image_description,
-    document_description
-)
+from gemini_service import generate_text, image_description, document_description
 
 
 @functions_framework.http
@@ -92,6 +88,7 @@ def handle_sticker_message(event):
         )
     )
 
+
 @handler.add(MessageEvent, message=LocationMessageContent)
 def handle_location_message(event):
     line_bot_api.show_loading_animation_with_http_info(
@@ -107,12 +104,13 @@ def handle_location_message(event):
                     address=event.message.address,
                     latitude=event.message.latitude,
                     longitude=event.message.longitude,
-                )
+                ),
             ],
         )
     )
 
-@handler.add(MessageEvent,message=ImageMessageContent)
+
+@handler.add(MessageEvent, message=ImageMessageContent)
 def handle_image_message(event):
     line_bot_api.show_loading_animation_with_http_info(
         ShowLoadingAnimationRequest(chat_id=event.source.user_id)
@@ -120,7 +118,7 @@ def handle_image_message(event):
 
     message_content = line_bot_blob_api.get_message_content(message_id=event.message.id)
     gemini_reponse = image_description(message_content)
-    
+
     line_bot_api.reply_message(
         ReplyMessageRequest(
             reply_token=event.reply_token,
@@ -133,7 +131,7 @@ def handle_image_message(event):
 
 @handler.add(MessageEvent, message=FileMessageContent)
 def handle_file_message(event):
-    
+
     doc_content = line_bot_blob_api.get_message_content(message_id=event.message.id)
     gemini_reponse = document_description(doc_content)
 

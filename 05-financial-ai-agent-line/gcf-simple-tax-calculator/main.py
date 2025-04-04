@@ -11,7 +11,7 @@ def handle_http_request(request):
     # Try to parse the body as JSON
     request_json = request.get_json(silent=True)
     print("Request: " + str(request_json))
-    
+
     # Extract data from JSON body
     monthly_income = int(request_json.get("monthly_income", 0))
     use_personal_allowance = request_json.get("use_personal_allowance", False)
@@ -90,14 +90,15 @@ def calculate_personal_income_tax(
 
     return tax, total_deductions, gross_income
 
+
 if __name__ == "__main__":
     # ทดสอบฟังก์ชันในที่นี้
-    monthly_income = 50000      # รายได้ต่อเดือน
-    personal_allowance = True   # ใช้ค่าลดหย่อนส่วนตัว
-    spouse_allowance = False    # ไม่มีคู่สมรสที่ไม่มีรายได้
-    num_children = 2            # จำนวนบุตร
-    insurance_premium = 20000   # เบี้ยประกันชีวิต
-    social_security = 9000      # ประกันสังคม
+    monthly_income = 50000  # รายได้ต่อเดือน
+    personal_allowance = True  # ใช้ค่าลดหย่อนส่วนตัว
+    spouse_allowance = False  # ไม่มีคู่สมรสที่ไม่มีรายได้
+    num_children = 2  # จำนวนบุตร
+    insurance_premium = 20000  # เบี้ยประกันชีวิต
+    social_security = 9000  # ประกันสังคม
 
     tax, total_deductions, gross_income = calculate_personal_income_tax(
         monthly_income,
@@ -107,6 +108,6 @@ if __name__ == "__main__":
         insurance_premium,
         social_security,
     )
-    print(f'รายได้รวมต่อปี: {gross_income:.2f} บาท')
-    print(f'ค่าลดหย่อนทั้งหมด: {total_deductions:.2f} บาท')
-    print(f'ภาษีที่ต้องชำระ: {tax:.2f} บาท')
+    print(f"รายได้รวมต่อปี: {gross_income:.2f} บาท")
+    print(f"ค่าลดหย่อนทั้งหมด: {total_deductions:.2f} บาท")
+    print(f"ภาษีที่ต้องชำระ: {tax:.2f} บาท")

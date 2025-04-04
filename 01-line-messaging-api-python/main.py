@@ -23,7 +23,7 @@ from linebot.v3.messaging import (
     ReplyMessageRequest,
     TextMessage,
     ShowLoadingAnimationRequest,
-    LocationMessage
+    LocationMessage,
 )
 
 load_dotenv()
@@ -82,6 +82,7 @@ def handle_sticker_message(event):
         )
     )
 
+
 @handler.add(MessageEvent, message=LocationMessageContent)
 def handle_location_message(event):
     line_bot_api.show_loading_animation_with_http_info(
@@ -97,11 +98,10 @@ def handle_location_message(event):
                     address=event.message.address,
                     latitude=event.message.latitude,
                     longitude=event.message.longitude,
-                )
+                ),
             ],
         )
     )
-
 
 
 @handler.add(
