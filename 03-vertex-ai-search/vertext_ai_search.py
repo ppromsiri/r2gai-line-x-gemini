@@ -33,7 +33,7 @@ def get_vertex_ai_search_config():
             ignore_adversarial_query=True,
             ignore_non_summary_seeking_query=True,
             model_prompt_spec=discoveryengine.SearchRequest.ContentSearchSpec.SummarySpec.ModelPromptSpec(
-                preamble="Summary the NAV the fund detail and provide recommendation based on YTD value and Answer in English"
+                preamble="Summary the NAV the fund detail and provide recommendation based on YTD value provide knowledge about each Fund in Thai"
             ),
             model_spec=discoveryengine.SearchRequest.ContentSearchSpec.SummarySpec.ModelSpec(
                 version="stable",
@@ -46,7 +46,7 @@ def search_ai(query):
     # Search Configuration 
     client, serving_config, content_search_spec = get_vertex_ai_search_config()
     
-    search_query = "Find Nasdaq Fund"
+    search_query = query
     request = discoveryengine.SearchRequest(
         serving_config=serving_config,
         query=search_query,

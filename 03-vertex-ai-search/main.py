@@ -195,7 +195,7 @@ def make_flex_message(search_results):
                                     },
                                     {
                                         "type": "text",
-                                        "text": f"{fund_data['riskSpectrum']} (สูง)" if fund_data['riskSpectrum'] >= 5 else f"{fund_data['riskSpectrum']} (ปานกลาง)",
+                                        "text": f"{fund_data['riskSpectrum']} ({'สูง' if fund_data['riskSpectrum'] >= 7 else 'ปานกลาง' if fund_data['riskSpectrum'] >= 4 else 'ต่ำ'})",
                                         "size": "sm",
                                         "color": "#111111",
                                         "align": "end",
