@@ -38,16 +38,17 @@ def image_description(image_content):
     print(f"Gemini response: {response.text}")
     return response.text
 
-def document_description(doc_path):
+def document_description(file_content):
     prompt = "Summarize this document in Thai"
     response = client.models.generate_content(
-    model="gemini-1.5-flash",
-    contents=[
-        types.Part.from_bytes(
-            data=doc_path,
-            mime_type='application/pdf',
-        ),
-        prompt],
+        model="gemini-1.5-flash",
+        contents=[
+            types.Part.from_bytes(
+                data=file_content,
+                mime_type='application/pdf',
+            ),
+            prompt
+        ],
         config=types.GenerateContentConfig(
             max_output_tokens=200,
         ),
