@@ -78,4 +78,10 @@ def server_http(request):
     # Extract data from JSON body
     query = request_json.get("query", "")
     gemini_summary_text, search_results = search_ai(query=query)
-    return { "summary":gemini_summary_text, "search_results": search_results}
+    
+    items = []
+    for result in search_results:
+        doc = result["document"]
+        struct_data = doc.get("structData", {})
+        items.append(struct_data)
+    return { "summary":gemini_summary_text, "search_results": items}

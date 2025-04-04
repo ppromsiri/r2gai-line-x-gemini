@@ -3,18 +3,24 @@ info:
   title: Vertex AI Fund Search API
   version: 1.0.0
   description: API สำหรับค้นหากองทุนผ่าน Vertex AI Search
-
+servers:
+  - url:https://gcf-vertex-search-6leecc2teq-as.a.run.app
 paths:
-  /api/funds/search:
-    get:
+  /gcf-vertex-search:
+    post:
       summary: ค้นหากองทุน
       description: ค้นหากองทุนตามเงื่อนไขต่างๆ
-      parameters:
-        - name: query
-          in: query
-          description: คำค้นหา
-          schema:
-            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: search for fund query
+                  example: Nasdaq
       responses:
         '200':
           description: ค้นหาสำเร็จ
