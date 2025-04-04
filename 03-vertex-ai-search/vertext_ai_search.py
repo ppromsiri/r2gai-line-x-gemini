@@ -4,6 +4,7 @@ from google.api_core.client_options import ClientOptions
 from google.cloud import discoveryengine_v1 as discoveryengine
 from google.protobuf.json_format import MessageToDict
 from dotenv import load_dotenv
+import functions_framework
 
 load_dotenv()
 GCP_PROJECT_ID = os.environ["GCP_PROJECT_ID"]
@@ -68,3 +69,13 @@ def search_ai(query):
     gemini_summary_text = response_dict["summary"]["summaryText"]
     search_results = response_dict["results"]
     return gemini_summary_text, search_results
+
+@functions_framework.http
+def server_http(request):
+    request_json = request.get_json(silent=True)
+    print("Request: " + str(request_json))
+
+    # Extract data from JSON body
+    query = int(request_json.get("query", ""))
+    gemini_summary_text, search_results = search_ai(query=query)
+    return { "summary":gemini_summary_text, "search_results": search_results}

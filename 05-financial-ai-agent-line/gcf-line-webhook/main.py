@@ -26,7 +26,7 @@ from linebot.v3.messaging import (
     ShowLoadingAnimationRequest,
     FlexContainer,
     FlexMessage,
-    FlexCarousel
+    FlexCarousel,
 )
 
 load_dotenv()
@@ -69,7 +69,9 @@ def handle_text_message(event):
     line_bot_api.show_loading_animation(
         ShowLoadingAnimationRequest(chat_id=event.source.user_id)
     )
-    detect_intent(user_id=event.source.user_id, text=event.message.text, line_bot_api=line_bot_api)
-
-
-
+    detect_intent(
+        user_id=event.source.user_id,
+        user_text=event.message.text,
+        line_bot_api=line_bot_api,
+        reply_token=event.reply_token,
+    )

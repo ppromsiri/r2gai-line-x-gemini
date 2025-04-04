@@ -8,3 +8,4 @@ functions-framework
 google-genai
 dfcx-scrapi
 google-cloud-discoveryengine
+pytz
