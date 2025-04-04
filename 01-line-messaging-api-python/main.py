@@ -26,8 +26,8 @@ from linebot.v3.messaging import (
 )
 
 load_dotenv()
-CHANNEL_ACCESS_TOKEN = os.environ["CHANNEL_ACCESS_TOKEN"]
-CHANNEL_SECRET = os.environ["CHANNEL_SECRET"]
+CHANNEL_ACCESS_TOKEN = os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
+CHANNEL_SECRET = os.environ["LINE_CHANNEL_SECRET"]
 
 
 configuration = Configuration(access_token=CHANNEL_ACCESS_TOKEN)

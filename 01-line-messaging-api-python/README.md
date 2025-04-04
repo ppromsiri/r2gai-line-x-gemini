@@ -2,7 +2,7 @@
 
 1. Navigate to the project directory:
    ```bash
-   cd 01-line-messaing-api-python
+   cd 01-line-messaging-api-python
    ```
 
 2. Install the required dependencies:
