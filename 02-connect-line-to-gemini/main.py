@@ -23,7 +23,8 @@ from linebot.v3.messaging import (
     MessagingApiBlob,
     ReplyMessageRequest,
     TextMessage,
-    ShowLoadingAnimationRequest
+    ShowLoadingAnimationRequest,
+    LocationMessage
 )
 
 load_dotenv()
@@ -96,11 +97,17 @@ def handle_location_message(event):
     line_bot_api.reply_message(
         ReplyMessageRequest(
             reply_token=event.reply_token,
-            messages=[TextMessage(text="Got location message")],
+            messages=[
+                TextMessage(text="Got location message {},{}"),
+                LocationMessage(
+                    title="Location",
+                    address=event.message.address,
+                    latitude=event.message.latitude,
+                    longitude=event.message.longitude,
+                )
+            ],
         )
     )
-
-
 
 @handler.add(
     MessageEvent,
