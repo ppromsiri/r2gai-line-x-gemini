@@ -1,0 +1,71 @@
+openapi: 3.0.0
+info:
+  title: Vertex AI Fund Search API
+  version: 1.0.0
+  description: API สำหรับค้นหากองทุนผ่าน Vertex AI Search
+
+paths:
+  /api/funds/search:
+    get:
+      summary: ค้นหากองทุน
+      description: ค้นหากองทุนตามเงื่อนไขต่างๆ
+      parameters:
+        - name: query
+          in: query
+          description: คำค้นหา
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ค้นหาสำเร็จ
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  search_results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        securityID:
+                          type: integer
+                        fundCode:
+                          type: string
+                        fundNameThai:
+                          type: string
+                        fundNameEn:
+                          type: string
+                        fundhouseCode:
+                          type: string
+                        fundTypeCode:
+                          type: string
+                        NAV:
+                          type: number
+                        NAVDate:
+                          type: integer
+                        NAVChg:
+                          type: number
+                        return1Y:
+                          type: number
+                        return3Y:
+                          type: number
+                        return5Y:
+                          type: number
+                        riskSpectrum:
+                          type: integer
+                        hashtags:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                              nameEN:
+                                type: string
+                  summary:
+                    type: string   
+        '400':
+          description: คำขอไม่ถูกต้อง
+        '500':
+          description: เกิดข้อผิดพลาดภายในเซิร์ฟเวอร์
