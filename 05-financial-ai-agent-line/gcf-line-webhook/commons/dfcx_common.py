@@ -11,7 +11,7 @@ project_id = os.environ["CONVERSATIONAL_AGENT_PROJECT_ID"]
 location_id = os.environ["CONVERSATIONAL_AGENT_LOCATION"]
 agent_id = os.environ["CONVERSATIONAL_AGENT_ID"]
 
-def detect_intent(user_id: str, user_text: str, line_bot_api, reply_token: str, language_code: str = "th") -> None:
+def detect_intent(user_id: str, user_text: str, line_bot_api, reply_token: str) -> None:
     """ฟังก์ชันหลักสำหรับตรวจจับ intent และส่งข้อความตอบกลับ"""
 
     
