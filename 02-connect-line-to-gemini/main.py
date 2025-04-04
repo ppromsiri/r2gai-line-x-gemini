@@ -20,12 +20,18 @@ from linebot.v3.messaging import (
     Configuration,
     ApiClient,
     MessagingApi,
+    MessagingApiBlob,
     ReplyMessageRequest,
     TextMessage,
     ShowLoadingAnimationRequest
 )
 
 load_dotenv()
+from google import genai
+from google.genai import types
+
+
+client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 CHANNEL_ACCESS_TOKEN = os.environ["CHANNEL_ACCESS_TOKEN"]
 CHANNEL_SECRET = os.environ["CHANNEL_SECRET"]
 
@@ -34,6 +40,7 @@ configuration = Configuration(access_token=CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(CHANNEL_SECRET)
 api_client = ApiClient(configuration)
 line_bot_api = MessagingApi(api_client)
+line_bot_blob_api = MessagingApiBlob(api_client)
 
 
 @functions_framework.http
@@ -105,6 +112,19 @@ def handle_content_message(event):
     )
     if isinstance(event.message, ImageMessageContent):
         ftype = "image"
+        message_content = line_bot_blob_api.get_message_content(message_id=event.message.id)
+        b64_image = types.Part.from_bytes(
+            data=message_content,
+            mime_type="image/jpeg"
+        )
+        response = client.models.generate_content(
+            model="gemini-2.0-flash-001",
+            contents=[
+                "What is shown in this image in Thai?",
+                b64_image,
+            ],
+        )
+        print(response.text)
     elif isinstance(event.message, VideoMessageContent):
         ftype = "viedio"
     elif isinstance(event.message, AudioMessageContent):
