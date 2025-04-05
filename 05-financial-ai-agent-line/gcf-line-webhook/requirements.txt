@@ -8,3 +8,5 @@ functions-framework
 google-genai
 dfcx-scrapi
 pytz
+ipython
+jupyter

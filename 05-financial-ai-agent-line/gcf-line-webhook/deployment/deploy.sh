@@ -13,4 +13,7 @@ gcloud functions deploy $FUNCTION_NAME \
     --region=asia-southeast1 \
     --runtime=python311 \
     --source=. \
-    --entry-point=$ENTRY_POINT
+    --entry-point=$ENTRY_POINT \
+    --allow-unauthenticated \
+    --memory=1GB \
+    --timeout=150s 

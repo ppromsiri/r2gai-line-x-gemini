@@ -5,6 +5,10 @@ from dotenv import load_dotenv
 from dfcx_scrapi.core.sessions import Sessions
 from proto.marshal.collections import maps
 from linebot.v3.messaging import ReplyMessageRequest, TextMessage
+from flex_builder import (
+        build_fund_flex_message,
+        build_tax_flex
+    )
 
 import os
 
@@ -25,26 +29,31 @@ def generate_session_path(user_id: str) -> str:
     return f"projects/{project_id}/locations/{location_id}/agents/{agent_id}/sessions/{session_id}"
 
 
-def parse_tool_response(tool_name: str, tool_data: dict) -> list[TextMessage]:
+def parse_tool_response(tool_name: str, output_params: dict, input_params: dict) -> list[TextMessage]:
     """Create LINE message(s) from tool response."""
     messages = []
 
     if tool_name == "loan_calculator":
-        max_loan = tool_data.get("max_loan", 0)
-        monthly_payment = tool_data.get("monthly_payment", 0)
+        max_loan = output_params.get("max_loan", 0)
+        monthly_payment = output_params.get("monthly_payment", 0)
         messages.append(
             TextMessage(
                 text=f"วงเงินกู้สูงสุด: {max_loan:,.0f} บาท\nยอดผ่อนต่อเดือน: {monthly_payment:,.0f} บาท"
             )
         )
     elif tool_name == "personal_tax_calculator":
-        # TODO: implement tax response
-        pass
-    elif tool_name == "fund_search":
-        # TODO: implement fund search response
-        pass
+       tax_flex = build_tax_flex(output_params)
+       messages.append(tax_flex)
 
-    return messages
+    elif tool_name == "vertex_fund_search":
+        
+        search_results = output_params["200"].get("search_results", None)
+        print("search_results", str(search_results))
+        if search_results:
+            fund_flex = build_fund_flex_message(search_results)
+            messages.append(fund_flex)
+        
+    return messages 
 
 
 def handle_agent_actions(actions, session: Sessions) -> list[TextMessage]:
@@ -59,15 +68,22 @@ def handle_agent_actions(actions, session: Sessions) -> list[TextMessage]:
 
             output_dict = session.recurse_proto_marshal_to_dict(output_params)
             input_dict = session.recurse_proto_marshal_to_dict(input_params)
-            print("tool_name:", tool_name)
-            print("output_dict:", output_dict)
-            print("input_dict:", input_dict)
+            print(f"tool_name: {tool_name}")
+            print(f"output_dict: {str(output_dict)}")
+            print(f"input_dict: {str(input_dict)}")
+            messages_from_tools = parse_tool_response(tool_name, output_dict, input_dict)
+            messages.extend(messages_from_tools)
 
         if "agent_utterance" in action:
             agent_utterance = action.agent_utterance.text
             print("agent_utterance", agent_utterance)
             messages.append(TextMessage(text=agent_utterance))
 
+        if "playbook_invocation" in action:
+            playbook_name = action.playbook_invocation.display_name
+            print(playbook_name)
+            playbook_state = action.playbook_invocation.playbook_state
+            print(playbook_state)
     return messages
 
 

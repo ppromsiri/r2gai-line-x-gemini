@@ -42,6 +42,7 @@ line_bot_api = MessagingApi(api_client)
 line_bot_blob_api = MessagingApiBlob(api_client)
 
 from conversational_dfcx_common import detect_intent
+from gemini_service import image_description, document_description
 
 
 @functions_framework.http
@@ -74,4 +75,39 @@ def handle_text_message(event):
         user_text=event.message.text,
         line_bot_api=line_bot_api,
         reply_token=event.reply_token,
+    )
+
+
+@handler.add(MessageEvent, message=ImageMessageContent)
+def handle_image_message(event):
+    line_bot_api.show_loading_animation_with_http_info(
+        ShowLoadingAnimationRequest(chat_id=event.source.user_id)
+    )
+
+    message_content = line_bot_blob_api.get_message_content(message_id=event.message.id)
+    gemini_reponse = image_description(message_content)
+
+    line_bot_api.reply_message(
+        ReplyMessageRequest(
+            reply_token=event.reply_token,
+            messages=[
+                TextMessage(text=gemini_reponse),
+            ],
+        )
+    )
+
+
+@handler.add(MessageEvent, message=FileMessageContent)
+def handle_file_message(event):
+
+    doc_content = line_bot_blob_api.get_message_content(message_id=event.message.id)
+    gemini_reponse = document_description(doc_content)
+
+    line_bot_api.reply_message(
+        ReplyMessageRequest(
+            reply_token=event.reply_token,
+            messages=[
+                TextMessage(text=gemini_reponse),
+            ],
+        )
     )
