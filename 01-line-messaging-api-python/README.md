@@ -21,6 +21,9 @@
     LINE_CHANNEL_SECRET=your_line_channel_secret
     LINE_USER_ID=your_line_user_id
     ```
-
+- run with function framework
+    ```
+    bash ./local_run.sh
+    ```
 
 
